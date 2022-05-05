@@ -1,0 +1,10 @@
+Metadata-Version: 2.1
+Briefcase-Version: 0.3.6
+Name: pduinspections
+Formal-Name: PDU Inspections
+App-ID: com.sandsnetworking.pduinspections
+Version: 0.0.1
+Home-page: https://sandsnetworking.com/pduinspections
+Author: John Schuster
+Author-email: john.schuster1978@gmail.com
+Summary: PDU Inspections for ABB at Microsoft.

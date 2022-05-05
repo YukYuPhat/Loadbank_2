@@ -1,0 +1,52 @@
+[tool.briefcase]
+project_name = "PDU Inspections"
+bundle = "com.sandsnetworking"
+version = "0.0.1"
+url = "https://sandsnetworking.com/pduinspections"
+license = "Proprietary"
+author = 'John Schuster'
+author_email = "john.schuster1978@gmail.com"
+
+[tool.briefcase.app.pduinspections]
+formal_name = "PDU Inspections"
+description = "PDU Inspections for ABB at Microsoft."
+icon = "src/pduinspections/resources/pduinspections"
+sources = ['src/pduinspections']
+requires = [
+]
+
+
+[tool.briefcase.app.pduinspections.macOS]
+requires = [
+    'toga-cocoa>=0.3.0.dev32',
+    'std-nslog==1.0.0'
+]
+
+[tool.briefcase.app.pduinspections.linux]
+requires = [
+    'toga-gtk>=0.3.0.dev32',
+]
+system_requires = [
+    'libgirepository1.0-dev',
+    'libcairo2-dev',
+    'libpango1.0-dev',
+    'libwebkitgtk-3.0-0',
+    'gir1.2-webkit-3.0',
+]
+
+[tool.briefcase.app.pduinspections.windows]
+requires = [
+    'toga-winforms>=0.3.0.dev32',
+]
+
+# Mobile deployments
+[tool.briefcase.app.pduinspections.iOS]
+requires = [
+    'toga-iOS>=0.3.0.dev32',
+    'std-nslog==1.0.0'
+]
+
+[tool.briefcase.app.pduinspections.android]
+requires = [
+    'toga-android>=0.3.0.dev32'
+]
