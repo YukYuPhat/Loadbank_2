@@ -48,6 +48,7 @@ var/
 .installed.cfg
 *.egg
 
+
 # IntelliJ Idea family of suites
 .idea
 *.iml
@@ -64,3 +65,9 @@ windows/
 android/
 linux/
 django/
+
+#specific files to this project that don't need to be tracked.
+DatabaseLayout.xlsx
+PDU_Database.db
+create_DB.py
+Todo.txt

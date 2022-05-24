@@ -16,11 +16,14 @@ class PDUInspections(toga.App):
         We then create a main window (with a name matching the app), and
         show the main window.
         """
-
+        #build the main window to pass to boxmanager
         self.main_window = toga.MainWindow(title=self.formal_name)
-
+        
+        #calling BoxManager Class and passing the main window.
         Display = BoxManager(self.main_window)
+        
+        #call the base function in BoxManager 
         Display.BuildBoxes()
 
 def main():
-    return TennisLeague()
+    return PDUInspections()
