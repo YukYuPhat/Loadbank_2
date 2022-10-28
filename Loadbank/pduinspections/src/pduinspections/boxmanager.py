@@ -1,4 +1,5 @@
 import toga
+import ubelt as ub
 from toga.style import Pack
 from toga.style.pack import COLUMN, ROW, LEFT, RIGHT
 from .DB.dbinterface import DBInterface
@@ -7,6 +8,7 @@ from .boxes.SetLocationStuff import WhichLocation
 from .boxes.allData import DataStart
 from .boxes.allData import DataEnter
 from .DB.openTheFile import openFile
+from .DB.openTheFile import checkJsonFile
 
 
 class BoxManager:
@@ -44,10 +46,17 @@ class BoxManager:
         self.__howmany = 0
 
     def ReturnHome(self, rebuild):
+        depends = 'repr-of-params-that-uniquely-determine-the-process'
+        cacher = ub.Cacher('LocationData', depends, verbose=4)
+        data = cacher.tryload()
+        if data is None or rebuild == "Clear":
         
+            self.__location = ''
+        else:
+            self.__location = data
         
         #sends you back to the home screen
-        if rebuild == True:
+        if rebuild == True or rebuild == 'Clear':
             
             self.__d_Boxes["HomeBox"] = self.__BuildHomeBox()
             
@@ -77,6 +86,7 @@ class BoxManager:
         self.__ActiveBox = boxname
 
     def __BuildHomeBox(self):
+        
         
         #don't need to add anything to this.  only need main menu.
         #build the root box
