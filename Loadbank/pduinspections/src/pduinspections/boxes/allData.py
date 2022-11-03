@@ -12,7 +12,7 @@ class DataStart:
         self.__Returnhandler = homehandler
         self.__Childhandler = childhandler
         self.__errhandler = errhandler
-        self.choosenumber = 0
+        self.choosenumber = 2
 
     def Build(self):
         
@@ -89,17 +89,17 @@ class DataStart:
     def __Return(self, widget):
         self.__Returnhandler()
 
-    def __ActivateChild(self):
+    def __ActivateChild(self, widget):
         self.__Childhandler(whichWindow)
         
-    def __ActivateDataSingle(self):
+    def __ActivateDataSingle(self, widget):
         self.choosenumber = 2
         self.__Childhandler("DataEnter")
-        
-    def __ActivateDataMulti(self):
+        return self.choosenumber
+    def __ActivateDataMulti(self, widget):
         self.choosenumber = 7
         self.__Childhandler("DataEnter")
-        
+        return self.choosenumber
         
         
 class DataEnter:

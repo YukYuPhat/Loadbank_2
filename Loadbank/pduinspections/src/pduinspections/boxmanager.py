@@ -118,6 +118,7 @@ class BoxManager:
         self.__d_Boxes["DataStart"] = dataStartbox.Build()
         self.__howmany = dataStartbox.choosenumber
         
+        
         #build dataenter box to call when needed. this is from the allData.py file
         dataEnterBox = DataEnter(self.ReturnHome, self.ActivateBox, self.__ErrorHandler, self.__location, self.__howmany)
         self.__d_Boxes["DataEnter"] = dataEnterBox.Build()
@@ -155,6 +156,7 @@ class MainMenu:
         self.__RootBox = toga.Box()
         
         self.__whichPDU = location
+        stuffBox = []
 
     def Build(self):
         # update the root box 
@@ -162,7 +164,7 @@ class MainMenu:
 
         locationbox = toga.Box()
         locationbox.style.update(direction=ROW, alignment=RIGHT)
-        
+        # The first button to get location
         locationbox.add(self.__Build_MenuItem("Input Location",self.show_input_window))
         
         
@@ -173,26 +175,49 @@ class MainMenu:
        
         
         
-            
+        # leaves a blank below the button    
         if self.__whichPDU == '':    
         
             locationlabelbox.add(self.__Build_MenuLabel(self.__whichPDU))
             
-        
+        # Gives location on front page
         if not self.__whichPDU == '':
              
+            buildingText = f'Building: {self.__whichPDU["Building"]}'
+            locationlabelbox.add(self.__Build_MenuLabel(buildingText))
+            ColoText = f'COLO: {self.__whichPDU["COLO"]}'
+            locationlabelbox.add(self.__Build_MenuLabel(ColoText))
+            CellText = f'Cell: {self.__whichPDU["CE"]}'
+            locationlabelbox.add(self.__Build_MenuLabel(CellText))
+            PDUText = f'PDU: {self.__whichPDU["PDU Name"]}'
+            locationlabelbox.add(self.__Build_MenuLabel(PDUText))
+            locationlabelbox.style.update(direction=COLUMN, alignment=RIGHT)
             
-            locationlabelbox.add(self.__Build_MenuLabel(self.__whichPDU))
-            
-        self.__RootBox.add(locationlabelbox)
+            self.__RootBox.add(locationlabelbox)
+            stuffBox = {}
+            for things in ['Data']:
+                
+                match things:
+                
+                    case 'Data':
+                        stuffBox[f'{things}'] = toga.Box()
+                        stuffBox[f'{things}'].style.update(direction=ROW, alignment=RIGHT)
+                        # The first button to get location
+                        stuffBox[f'{things}'].add(self.__Build_MenuItem(f"{things}",self.show_data_window))
+                        self.__RootBox.add(stuffBox[f'{things}'])
+        
+
+        self.__RootBox.add(locationbox)
+                
         return self.__RootBox
 
 # todo: make this function more generic so it can take multiple handlers.
     def show_input_window(self, widget):
         self.__handler("WhichLocation")
         
-    def new_season_window(self, widget):
-        self.__handler("NewSeason")
+    def show_data_window(self, widget):
+
+        self.__handler("DataStart")
 
     def new_player_window(self, widget):
         self.__handler("NewPlayer")
