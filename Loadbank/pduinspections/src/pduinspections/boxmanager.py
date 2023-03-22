@@ -46,18 +46,23 @@ class BoxManager:
         self.__howmany = 0
 
     def ReturnHome(self, rebuild):
+    '''
+    This return home is what is used to get back to the main menu.  use rebuild variable to get data returned from the other file.  
+    '''
         depends = 'repr-of-params-that-uniquely-determine-the-process'
         cacher = ub.Cacher('LocationData', depends, verbose=4)
         data = cacher.tryload()
         if data is None or rebuild == "Clear":
-        
+            #starts the main menu from scratch
             self.__location = ''
         else:
+            #adds location data to the main menu
             self.__location = data
         
         #sends you back to the home screen
         if rebuild == True or rebuild == 'Clear':
             
+            # this builds the main menu by calling  self.__BuildHomeBox
             self.__d_Boxes["HomeBox"] = self.__BuildHomeBox()
             
         #removes/closes current box/screen
@@ -107,9 +112,19 @@ class BoxManager:
         return root
 
     def BuildBoxes(self):
+    
+    #this sets up all the other pages of the program  
         self.__RootBox.style.update(direction=ROW)
 
-#        d_Players = self.__database.get_playerdict()
+        '''
+        
+        #build dataenter box to call when needed. this is from the allData.py file
+        dataEnterBox = DataEnter(self.ReturnHome, self.ActivateBox, self.__ErrorHandler, self.__location, self.__howmany)  # this is the class called from another file.py
+        self.__d_Boxes["DataEnter"] = dataEnterBox.Build() #calls the build function and adds it to the dictionary under "DataCenter"
+        
+        
+        
+        '''
         
 
         
@@ -134,9 +149,9 @@ class BoxManager:
         #build the home box and add buttons.  change __BuildHomeBox to affect this
         self.__d_Boxes["HomeBox"] = self.__BuildHomeBox()
         self.__RootBox.add(self.__d_Boxes["HomeBox"])
-
-        self.__MainWindow.content = self.__RootBox
-        self.__MainWindow.show()
+        
+        self.__MainWindow.content = self.__RootBox # gets mainwindow from the app.py file
+        self.__MainWindow.show() #show the main window
 
     def __ErrorHandler(self,errmsg="Unknown Error",fatalflg=False,returnwin="HomeBox"):
         if fatalflg == True:
@@ -151,26 +166,26 @@ class BoxManager:
 class MainMenu:
     
     def __init__(self, handler, location):
-        self.__handler = handler
+        self.__handler = handler # this is the dictonary of all the sub windows/boxes
         #build the main menu box
-        self.__RootBox = toga.Box()
+        self.__RootBox = toga.Box() #calls toga.Box for the base of the app
         
-        self.__whichPDU = location
-        stuffBox = []
+        self.__whichPDU = location #This is data from the selection.
+        stuffBox = [] #not used yet.
 
     def Build(self):
         # update the root box 
-        self.__RootBox.style.update(direction=COLUMN, alignment=LEFT)
+        self.__RootBox.style.update(direction=COLUMN, alignment=LEFT) 
 
-        locationbox = toga.Box()
-        locationbox.style.update(direction=ROW, alignment=RIGHT)
+        locationbox = toga.Box() #building the new box 
+        locationbox.style.update(direction=ROW, alignment=RIGHT)# updates the style
         # The first button to get location
-        locationbox.add(self.__Build_MenuItem("Input Location",self.show_input_window))
+        locationbox.add(self.__Build_MenuItem("Input Location",self.show_input_window)) #use Build_MenuItem function to build buttons
         
         
 
-        self.__RootBox.add(locationbox)
-        locationlabelbox = toga.Box()
+        self.__RootBox.add(locationbox) # add the above box to root
+        locationlabelbox = toga.Box() # building the label for the box above.
         
        
         
@@ -178,7 +193,7 @@ class MainMenu:
         # leaves a blank below the button    
         if self.__whichPDU == '':    
         
-            locationlabelbox.add(self.__Build_MenuLabel(self.__whichPDU))
+            locationlabelbox.add(self.__Build_MenuLabel(self.__whichPDU)) 
             
         # Gives location on front page
         if not self.__whichPDU == '':
@@ -207,22 +222,22 @@ class MainMenu:
                         self.__RootBox.add(stuffBox[f'{things}'])
         
 
-        self.__RootBox.add(locationbox)
+        self.__RootBox.add(locationbox) #it always takes this box.
                 
-        return self.__RootBox
+        return self.__RootBox #returns it to the call
 
 # todo: make this function more generic so it can take multiple handlers.
-    def show_input_window(self, widget):
-        self.__handler("WhichLocation")
+    def show_input_window(self, widget): # use this in the __Build_MenuItem function.  This is what is called when buttion pushed.
+        self.__handler("WhichLocation") #is used to call the specific page in the app
         
-    def show_data_window(self, widget):
+    def show_data_window(self, widget):# use this in the __Build_MenuItem function.  This is what is called when buttion pushed.
 
-        self.__handler("DataStart")
+        self.__handler("DataStart")  #is used to call the specific page in the app
 
-    def new_player_window(self, widget):
-        self.__handler("NewPlayer")
+    def new_player_window(self, widget):# use this in the __Build_MenuItem function.  This is what is called when buttion pushed.
+        self.__handler("NewPlayer") #is used to call the specific page in the app
 
-    def __Build_MenuItem(self, label, action):
+    def __Build_MenuItem(self, label, action): # this function is called to build a button
         itembox = toga.Box()
         itembox.style.update(direction=ROW)
 
@@ -236,7 +251,7 @@ class MainMenu:
 
         return itembox
         
-    def __Build_MenuLabel(self, label):
+    def __Build_MenuLabel(self, label): # this function is used to build a label.
         labelbox = toga.Box()
         labelbox.style.update(direction=ROW)
         
