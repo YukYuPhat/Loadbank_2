@@ -2,6 +2,7 @@ import toga
 import ubelt as ub
 from toga.style import Pack
 from toga.style.pack import COLUMN, ROW, LEFT, RIGHT
+#below are the imported classes from files.py
 from .DB.dbinterface import DBInterface
 from .boxes.errorbox import ErrorBox
 from .boxes.SetLocationStuff import WhichLocation
@@ -227,14 +228,14 @@ class MainMenu:
         return self.__RootBox #returns it to the call
 
 # todo: make this function more generic so it can take multiple handlers.
-    def show_input_window(self, widget): # use this in the __Build_MenuItem function.  This is what is called when buttion pushed.
+    def show_input_window(self, widget): # use this in the __Build_MenuItem function.  This is what is called when button pushed.
         self.__handler("WhichLocation") #is used to call the specific page in the app
         
-    def show_data_window(self, widget):# use this in the __Build_MenuItem function.  This is what is called when buttion pushed.
+    def show_data_window(self, widget):# use this in the __Build_MenuItem function.  This is what is called when button pushed.
 
         self.__handler("DataStart")  #is used to call the specific page in the app
 
-    def new_player_window(self, widget):# use this in the __Build_MenuItem function.  This is what is called when buttion pushed.
+    def new_player_window(self, widget):# use this in the __Build_MenuItem function.  This is what is called when button pushed.
         self.__handler("NewPlayer") #is used to call the specific page in the app
 
     def __Build_MenuItem(self, label, action): # this function is called to build a button
