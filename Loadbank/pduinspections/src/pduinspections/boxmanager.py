@@ -59,6 +59,7 @@ class BoxManager:
         else:
             #adds location data to the main menu
             self.__location = data
+            
         
         #sends you back to the home screen
         if rebuild == True or rebuild == 'Clear':

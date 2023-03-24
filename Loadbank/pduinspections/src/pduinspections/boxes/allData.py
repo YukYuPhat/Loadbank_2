@@ -1,5 +1,6 @@
 import datetime
 import toga
+import ubelt as ub
 from toga.style import Pack
 from toga.style.pack import COLUMN, ROW, LEFT, RIGHT
 from ..DB.dbinterface import DBInterface
@@ -13,7 +14,7 @@ class DataStart:
         self.__Childhandler = childhandler
         self.__errhandler = errhandler
         self.choosenumber = 2
-        self.pdunumbers = 0
+        self.pdunumbers = 47
 
     def Build(self):
         
@@ -94,12 +95,24 @@ class DataStart:
         self.__Childhandler(whichWindow)
         
     def __ActivateDataSingle(self, widget):
-        self.pdunumbers = 2
+        data = {'PDUNumbers': 2}
+        depends = 'repr-of-params-that-uniquely-determine-the-process'
+        #Create a cacher and try loading the data
+
+        cacher = ub.Cacher('PDUNumber' , depends, verbose=4)
+        cacher.save(data)
+        assert cacher.exists(), 'should now exist'
         self.__Childhandler("DataEnter")
         
     def __ActivateDataMulti(self, widget):
         
-        self.pdunumbers = 7
+        data = {'PDUNumbers': 7}
+        depends = 'repr-of-params-that-uniquely-determine-the-process'
+        #Create a cacher and try loading the data
+
+        cacher = ub.Cacher('PDUNumber' , depends, verbose=4)
+        cacher.save(data)
+        assert cacher.exists(), 'should now exist'
         self.__Childhandler("DataEnter")
         
         
@@ -108,12 +121,15 @@ class DataEnter:
 
     def __init__(self, homehandler, childhandler, errhandler, dataStartbox):
         
-        
+        data = []
         self.__Returnhandler = homehandler
         self.__Childhandler = childhandler
         self.__errhandler = errhandler
-        
-        self.__pdunumbers = dataStartbox.pdunumbers - 1
+        depends = 'repr-of-params-that-uniquely-determine-the-process'
+        cacher = ub.Cacher('PDUNumber', depends, verbose=4)
+        data= cacher.tryload()
+        self.__pdunumbers = data['PDUNumbers'] - 1
+        del cacher
         
         self.__pdudata = {}
         self.__pduserial =[1,2,3,4,5,6]
