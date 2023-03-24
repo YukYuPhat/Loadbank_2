@@ -47,15 +47,15 @@ class BoxManager:
         self.__howmany = 0
 
     def ReturnHome(self, rebuild):
-    '''
-    This return home is what is used to get back to the main menu.  use rebuild variable to get data returned from the other file.  
-    '''
+        '''
+        This return home is what is used to get back to the main menu.  use rebuild variable to get data returned from the other file.  
+        '''
         depends = 'repr-of-params-that-uniquely-determine-the-process'
         cacher = ub.Cacher('LocationData', depends, verbose=4)
         data = cacher.tryload()
         if data is None or rebuild == "Clear":
             #starts the main menu from scratch
-            self.__location = ''
+            self.__location = 'Bob' 
         else:
             #adds location data to the main menu
             self.__location = data
@@ -120,7 +120,7 @@ class BoxManager:
         '''
         
         #build dataenter box to call when needed. this is from the allData.py file
-        dataEnterBox = DataEnter(self.ReturnHome, self.ActivateBox, self.__ErrorHandler, self.__location, self.__howmany)  # this is the class called from another file.py
+        dataEnterBox = DataEnter(self.ReturnHome, self.ActivateBox, self.__ErrorHandler, self.__howmany)  # this is the class called from another file.py
         self.__d_Boxes["DataEnter"] = dataEnterBox.Build() #calls the build function and adds it to the dictionary under "DataCenter"
         
         
@@ -129,21 +129,22 @@ class BoxManager:
         
 
         
-        #build datastart box to call when needed. this is from the allData.py file
-        dataStartbox = DataStart(self.ReturnHome, self.ActivateBox, self.__ErrorHandler)
-        self.__d_Boxes["DataStart"] = dataStartbox.Build()
-        self.__howmany = dataStartbox.choosenumber
-        
-        
-        #build dataenter box to call when needed. this is from the allData.py file
-        dataEnterBox = DataEnter(self.ReturnHome, self.ActivateBox, self.__ErrorHandler, self.__location, self.__howmany)
-        self.__d_Boxes["DataEnter"] = dataEnterBox.Build()
 
         #build the which location box, SetLocationStuff.py is the file.
         whichLoc = WhichLocation(self.ReturnHome, self.ActivateBox, self.__ErrorHandler)
         self.__d_Boxes["WhichLocation"] = whichLoc.Build()
         self.whichList = whichLoc.list_stuff 
         
+        #build datastart box to call when needed. this is from the allData.py file
+        dataStartbox = DataStart(self.ReturnHome, self.ActivateBox, self.__ErrorHandler)
+        self.__d_Boxes["DataStart"] = dataStartbox.Build()
+        
+        
+        
+        #build dataenter box to call when needed. this is from the allData.py file
+        dataEnterBox = DataEnter(self.ReturnHome, self.ActivateBox, self.__ErrorHandler, dataStartbox)
+        self.__d_Boxes["DataEnter"] = dataEnterBox.Build()
+
 #        newplayer = NewPlayer(self.__database, self.ReturnLast, self.__ErrorHandler)
 #        self.__d_Boxes["NewPlayer"] = newplayer.Build()
         

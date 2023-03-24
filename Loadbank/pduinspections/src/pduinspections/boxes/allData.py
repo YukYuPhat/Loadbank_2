@@ -13,6 +13,7 @@ class DataStart:
         self.__Childhandler = childhandler
         self.__errhandler = errhandler
         self.choosenumber = 2
+        self.pdunumbers = 0
 
     def Build(self):
         
@@ -93,55 +94,69 @@ class DataStart:
         self.__Childhandler(whichWindow)
         
     def __ActivateDataSingle(self, widget):
-        self.choosenumber = 2
+        self.pdunumbers = 2
         self.__Childhandler("DataEnter")
-        return self.choosenumber
+        
     def __ActivateDataMulti(self, widget):
-        self.choosenumber = 7
+        
+        self.pdunumbers = 7
         self.__Childhandler("DataEnter")
-        return self.choosenumber
+        
         
         
 class DataEnter:
 
-    def __init__(self, homehandler, childhandler, errhandler, location, howmany):
+    def __init__(self, homehandler, childhandler, errhandler, dataStartbox):
+        
         
         self.__Returnhandler = homehandler
         self.__Childhandler = childhandler
         self.__errhandler = errhandler
-        self.__Location = location
-        self.__pdunumbers = howmany
+        
+        self.__pdunumbers = dataStartbox.pdunumbers - 1
+        
         self.__pdudata = {}
-
+        self.__pduserial =[1,2,3,4,5,6]
+        self.__pdumodel = [1,2,3,4,5,6]
 
     def Build(self):
         
-
+        
         main_box = toga.Box()
         main_box.style.update(direction=COLUMN, padding_top=10, flex=1)
+        
+        match self.__pdunumbers:
+        
+            case 1:
+                main_box.add(self.__Build_RowOne(1))
+                
+            case 6:
+                #add loop here to do __Build_RowOne with 1 or 6 spots
+                for i in range(0,self.__pdunumbers):
+                    main_box.add(self.__Build_RowOne(i))
+            case _:
+                main_box.add(self.__Build_Label(f'{self.__pdunumbers}'))
 
-        
-        main_box.add(self.__Build_RowOne())
-        
+        main_box.add(self.__Build_Chooser())
 
         return main_box
 
-    def __Build_RowOne(self):
+    def __Build_RowOne(self, i):
         row1_box = toga.Box()
         row1_box.style.update(direction=COLUMN, padding_left=5, flex=1)
         
         serial_model_box = toga.Box()
         serial_model_box.style.update(direction = ROW, padding_left=5, flex = 1)
         
-        for i in range(1,self.__pdunumbers):
-            row1_box.add(self.__Build_Label(f"Enter Serial Number and Model Number for PDU {i}"))
-            
-            self.__pduserial[i] = toga.TextInput(style=Pack(width=150, alignment=RIGHT, padding=(0,2), flex=1))
-            self.__pdumodel[i] = toga.TextInput(style=Pack(width=150, alignment=RIGHT, padding=(0,2), flex=1))
-            serial_model_box.add(self.__pduserial[i])
-            serial_model_box.add(self.__pdumodel[i] )
-            
-            row1_box.add(serial_model_box)
+    
+        row1_box.add(self.__Build_Label(f"Enter Serial Number and Model Number for PDU {i+1}"))
+        #use a dict to gather all the data.
+        self.__pduserial[i] = toga.TextInput(style=Pack(width=150, alignment=RIGHT, padding=(0,2), flex=1))
+        self.__pdumodel[i] = toga.TextInput(style=Pack(width=150, alignment=RIGHT, padding=(0,2), flex=1))
+        serial_model_box.add(self.__pduserial[i])
+        serial_model_box.add(self.__pdumodel[i] )
+        
+        row1_box.add(serial_model_box)
 
         return row1_box
 

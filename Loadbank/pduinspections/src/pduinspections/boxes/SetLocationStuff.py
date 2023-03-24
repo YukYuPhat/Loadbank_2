@@ -153,7 +153,7 @@ class WhichLocation: #the name of the class that is called in boxmanager.py
 
     def __ActivateChild(self, widget): #this is the return to main menu with data function.
         
-        data = {'Building':self.Building.value, 'COLO': self.ColoLoc.value, 'CE':self.CELoc.value, 'PDU Name':self.PDULoc.value}
+        data = {'Building':self.Building.value, 'COLO': self.ColoLoc.value, 'CE':self.CELoc.value, 'PDU Name':self.PDULoc.value, "Number of PDUs": 0}
         
         depends = 'repr-of-params-that-uniquely-determine-the-process'
 
